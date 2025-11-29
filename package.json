@@ -1,15 +1,12 @@
 {
-  "name": "kurdish-translate-api",
-  "version": "1.0.0",
-  "description": "Free translation API for English to Kurdish (Sorani) for Chrome extension.",
-  "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
-    "cors": "^2.8.5",
     "express": "^4.19.0",
+    "cors": "^2.8.5",
     "node-fetch": "^3.3.2"
   }
 }
+
