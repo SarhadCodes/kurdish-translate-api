@@ -13,7 +13,7 @@ app.post("/translate", async (req, res) => {
     const { text } = req.body;
     if (!text) return res.status(400).json({ error: "No text provided" });
 
-    const response = await fetch("https://translate.argosopentech.com/translate", {
+    const response = await fetch("https://libretranslate.de/translate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -23,9 +23,12 @@ app.post("/translate", async (req, res) => {
         format: "text"
       })
     });
+
     const data = await response.json();
-    const translated = data.translatedText || text;
-    return res.json({ translated });
+    return res.json({
+      translated: data.translatedText || text
+    });
+
   } catch (error) {
     console.error("Translation error:", error);
     return res.json({ translated: req.body.text });
