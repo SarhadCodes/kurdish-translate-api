@@ -11,11 +11,12 @@ app.use(express.json());
 app.post("/translate", async (req, res) => {
   try {
     const { text } = req.body;
+
     if (!text) {
       return res.status(400).json({ error: "No text provided" });
     }
 
-    const response = await fetch("https://libretranslate.com/translate", {
+    const response = await fetch("https://translate.argosopentech.com/translate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -27,12 +28,14 @@ app.post("/translate", async (req, res) => {
     });
 
     const data = await response.json();
-    const translated = data.translatedText || text;
 
-    res.json({ translated });
-  } catch (err) {
-    console.error("Translation error:", err);
-    res.json({ translated: req.body.text });
+    return res.json({
+      translated: data.translatedText || text
+    });
+
+  } catch (error) {
+    console.error("Translation error:", error);
+    return res.json({ translated: req.body.text });
   }
 });
 
@@ -41,5 +44,6 @@ app.get("/", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log("Server running on port", PORT);
 });
+
