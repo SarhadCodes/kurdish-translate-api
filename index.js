@@ -11,10 +11,7 @@ app.use(express.json());
 app.post("/translate", async (req, res) => {
   try {
     const { text } = req.body;
-
-    if (!text) {
-      return res.status(400).json({ error: "No text provided" });
-    }
+    if (!text) return res.status(400).json({ error: "No text provided" });
 
     const response = await fetch("https://translate.argosopentech.com/translate", {
       method: "POST",
@@ -26,13 +23,9 @@ app.post("/translate", async (req, res) => {
         format: "text"
       })
     });
-
     const data = await response.json();
-
-    return res.json({
-      translated: data.translatedText || text
-    });
-
+    const translated = data.translatedText || text;
+    return res.json({ translated });
   } catch (error) {
     console.error("Translation error:", error);
     return res.json({ translated: req.body.text });
@@ -43,7 +36,4 @@ app.get("/", (req, res) => {
   res.send("Kurdish Translation API is running successfully.");
 });
 
-app.listen(PORT, () => {
-  console.log("Server running on port", PORT);
-});
-
+app.listen(PORT, () => console.log("Server running on port", PORT));
